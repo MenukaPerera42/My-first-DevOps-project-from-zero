@@ -1,0 +1,4 @@
+Hello 👋
+This is my first DevOps project file.
+I created this using Terminal.
+
