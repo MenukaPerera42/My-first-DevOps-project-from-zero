@@ -1,4 +1,4 @@
-name: CI - Build Docker Image
+name: CI/CD - Build and Push Docker Image
 
 on:
   push:
@@ -6,15 +6,23 @@ on:
       - main
 
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: |
-          cd app
-          docker build -t hello-devops .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./app
+          push: true
+          tags: menukaperera2001/hello-devops:latest
 
